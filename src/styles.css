@@ -14,3 +14,89 @@
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
 @media(max-width:850px){.section-wrap{width:calc(100% - 12vw)}.site-header{padding:1.6rem 6vw}.hero{padding-inline:8vw;min-height:760px}.hero-index{left:8vw;top:18%}.hero h1{font-size:clamp(3.1rem,9vw,6.6rem);margin-top:5rem}.brand-slot{right:8vw;top:17%}.hero-foot{left:8vw;right:8vw}.origin{grid-template-columns:1fr;min-height:720px;padding-top:4rem}.origin-copy{padding:5rem 0 0 12%}.note-origin{right:4%;bottom:7%}.questions{padding-top:1rem}.questions-intro{margin:5rem 0 4rem 12%;align-items:flex-start;flex-direction:column;gap:2.5rem}.project{grid-template-columns:10% 47% 1fr;gap:1.5%;padding:2.7rem 0 3rem;min-height:300px}.project-question{padding:0 1.8rem}.project-question p{font-size:1.7rem}.project-answer{padding-left:1.1rem}.project-answer h3{font-size:1.3rem}.project-answer>p{font-size:.77rem}.project-system{font-size:.5rem}.constraints-head,.constraint-list,.domains>h2,.domain-flow{margin-left:12%}.constraints-head{align-items:flex-start;flex-direction:column}.constraint-list li{grid-template-columns:12% 35% 1fr 1rem;gap:.5rem}.decision{grid-template-columns:1fr 2fr;gap:2rem}.margin-section{grid-template-columns:12% 25% 1fr}.domain-flow{grid-template-columns:repeat(2,1fr);row-gap:2.4rem}.domain-flow:before{display:none}.domain-flow>div:before{top:-.7rem}.domain-flow>div>span{margin-bottom:1rem}.note-domains{bottom:3%;}}
 @media(max-width:600px){.site-header{padding:1.3rem 5vw}.wordmark>span{font-size:1.4rem}.wordmark small{font-size:.48rem}.header-index{font-size:.55rem;max-width:130px;text-align:right;line-height:1.5}.hero{min-height:780px;min-height:100svh;min-height:max(700px,100svh);padding:9rem 7vw 5rem}.hero:after{width:47vw;height:47vw;right:-6%;top:25%;opacity:.6}.hero-index{top:17%;left:7vw;font-size:.56rem}.hero-index span{margin-left:.7rem}.brand-slot{top:auto;right:7vw;bottom:18%;width:5.3rem;height:4.5rem;font-size:.48rem}.hero h1{font-size:clamp(3rem,14vw,5rem);line-height:1.02;margin:0 0 2rem}.hero-bottom{align-items:flex-start;flex-direction:column;gap:1.4rem}.hero-bottom>p{font-size:1.2rem}.hero-meta{font-size:.52rem;gap:.38rem;max-width:320px;line-height:1.8}.enter-link{right:auto;left:7vw;bottom:19%;flex-direction:row;gap:1rem}.enter-link span+span{font-size:1rem}.hero-foot{left:7vw;right:7vw;bottom:1.2rem;font-size:.48rem}.hero-foot span:last-child{max-width:125px;text-align:right}.section-wrap{width:calc(100% - 14vw)}.map-thread{left:0;width:100%;opacity:.75}.origin{min-height:740px;padding-top:3rem}.section-kicker{font-size:.55rem;gap:.75rem}.origin-copy{padding:5rem 0 0 5%}.origin-copy h2,.questions-intro h2,.constraints-head h2,.domains>h2{font-size:2.6rem}.big-thought{font-size:1.7rem}.outcomes{font-size:.95rem}.note-origin{right:3%;bottom:4%;font-size:.9rem}.questions{padding-top:2rem;padding-bottom:5rem}.questions-intro{margin:4rem 0 3rem 5%;gap:2rem}.perspective-control{min-width:min(100%,270px)}.perspective-control legend{font-size:.56rem}.perspective-control button{font-size:.65rem;padding:.55rem .6rem}.project{display:block;padding:2.2rem 0 2.4rem;min-height:0}.project-index{flex-direction:row;gap:1rem;font-size:.57rem;margin-bottom:1.1rem}.project-question{padding:0 0 0 1.5rem;min-height:0}.question-dot{left:0;top:.45rem;width:7px;height:7px;box-shadow:0 0 0 4px var(--paper)}.project-question p,.project.is-featured .project-question p{font-size:1.65rem;line-height:1.22}.project-answer{margin:1.5rem 0 0 1.5rem;padding:.2rem 0 0 1rem}.project-answer h3{font-size:1.3rem;margin:.7rem 0}.project-answer>p{font-size:.8rem;max-width:none}.project-system{flex-direction:row;flex-wrap:wrap;font-size:.5rem;gap:.4rem .8rem}.project:after{left:0;right:0}.unknown-node{margin:4rem 0 0 18%;width:82%;padding-left:1.2rem;min-height:180px}.unknown-node p{font-size:1.2rem}.unknown-orbit{font-size:3rem}.map-caption{font-size:.48rem;margin-top:4rem}.interrupt{min-height:540px;padding:1.5rem 7vw 3rem}.interrupt-top{font-size:.48rem;gap:.4rem}.interrupt-top span:first-child{max-width:80px}.interrupt-content{width:100%;margin:6rem auto 2rem}.interrupt-content h2{font-size:clamp(2.4rem,11vw,4.1rem)}.interrupt-content>p{font-size:.52rem;line-height:1.5}.interrupt-note{font-size:.9rem}.constraints{padding:6rem 0 8rem}.constraints-head{margin:4rem 0 3rem 5%;gap:1rem}.constraints-head h2{margin:0}.constraints-head p{font-size:.9rem}.constraint-list{margin-left:5%}.constraint-list li{grid-template-columns:12% 1fr 1rem;gap:.5rem;padding:1.15rem 0}.constraint-list h3{font-size:.78rem}.constraint-list p{grid-column:2;grid-row:2;font-size:.78rem}.constraint-link{grid-column:3;grid-row:1}.decision{display:block;padding:5rem 0 8rem}.decision-aside{margin-bottom:4rem}.decision-aside p{margin-top:1rem}.decision-main>.section-kicker{margin-bottom:3rem}.decision-main h2{font-size:4.2rem;margin-bottom:3rem}.test-statement{font-size:1.65rem}.test-response{gap:.8rem}.test-response span,.test-response strong{font-size:.56rem}.domains{padding:6rem 0 8rem}.domains>h2{margin:4rem 0 3rem 5%}.domain-flow{margin-left:5%;grid-template-columns:1fr 1fr;gap:2.5rem 1rem}.domain-flow>div>span{font-size:.49rem}.domain-flow h3{font-size:1.1rem}.domain-flow p{font-size:.72rem}.note-domains{position:relative;right:auto;bottom:auto;margin:3rem 0 0 8%;display:inline-block}.margin-section{display:block;padding:5rem 0;min-height:0}.margin-rule{width:4rem;margin-bottom:1rem}.margin-label{margin-bottom:2rem}.margin-copy h2{font-size:1.8rem}.margin-copy p{font-size:.84rem}.closing{padding-top:5rem;min-height:0}.closing-signal{font-size:.48rem}.closing-wordmark{margin:3.5rem 0 1.6rem;font-size:1.7rem}.closing h2{font-size:clamp(2.8rem,12vw,4.2rem)}.closing>p{font-size:1rem}.closing .invitation{font-size:.93rem}.closing-links{gap:1.4rem;font-size:.6rem;margin:2.5rem 0 5rem}.closing footer{flex-direction:column;font-size:.5rem;gap:.8rem}.closing footer span:nth-child(2){font-size:.58rem}.thread-tag{display:none}}
+
+
+/* Keep the route behind copy while leaving its open-space segments visible. */
+.map-world {
+  isolation: isolate;
+}
+
+.map-thread {
+  z-index: -1;
+}
+
+.section-kicker,
+.origin-copy,
+.questions-intro,
+.project-index,
+.project-question,
+.project-answer,
+.unknown-node {
+  position: relative;
+  z-index: 2;
+  background-color: var(--paper);
+}
+
+/* Use the supplied logo exports at their natural proportions, without effects. */
+.site-header {
+  align-items: center;
+}
+
+.wordmark-logotype {
+  display: block;
+  width: min(8.5rem, 42vw);
+  height: auto;
+}
+
+.closing-wordmark {
+  width: min(15rem, 70vw);
+  height: auto;
+}
+
+/* Keep quiet copy and warm accents readable against the paper background. */
+:root {
+  --muted: #606967;
+  --ochre: #885a30;
+}
+
+.kicker-note,
+.header-index,
+.hero-index span,
+.hero-foot,
+.project-index,
+.answer-label,
+.project-system,
+.interrupt-top,
+.interrupt-content > p,
+.constraints-head p,
+.constraint-list p,
+.decision-aside > span,
+.test-progress span,
+.test-response span,
+.domain-flow > div > span,
+.map-caption,
+.closing-signal,
+.closing footer,
+.unknown-node > .mono,
+.project-answer > p,
+.domain-flow p,
+.margin-copy p,
+.closing > p {
+  color: var(--muted);
+}
+
+.perspective-control button {
+  color: var(--muted);
+}
+
+/* Keep the question legible in every perspective. */
+.project-list[data-perspective] .project-question,
+.project-list[data-perspective] .project-answer {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .map-thread {
+    display: none;
+  }
+}
