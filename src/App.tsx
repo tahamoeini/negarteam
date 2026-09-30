@@ -1,4 +1,6 @@
 import { useState } from 'react'
+import negarLogotype from './assets/Negar-Team-Logotype.png'
+import negarPrimaryLockup from './assets/Negar-Team-Primary-Lockup.png'
 import { constraints, projects, prompts, type Perspective, type Project } from './data/projects'
 
 const perspectives: { id: Perspective; label: string }[] = [
@@ -34,7 +36,7 @@ function App() {
   return <>
     <a className="skip-link" href="#main">Skip to content</a>
     <header className="site-header">
-      <a className="wordmark" href="#top" aria-label="Negar Team, home"><span>negar</span><small>TEAM / INDEPENDENT WORKS</small></a>
+      <a className="wordmark" href="#top" aria-label="Negar Team, home"><img className="wordmark-logotype" src={negarLogotype} alt="" /></a>
       <a className="header-index" href="#questions">A map of what we’re figuring out <span>↘</span></a>
     </header>
     <main id="main">
@@ -81,7 +83,7 @@ function App() {
             </article>)}
           </div>
           <div className="unknown-node" role="group" aria-label="Unfinished question node">
-            <span className="mono">UNKNOWN_05</span><span className="unknown-orbit">?</span><p>There should always be something<br />here we can’t explain yet.</p><small>Ask again in six months.</small>
+            <span className="mono">UNKNOWN_05</span><span className="unknown-orbit" aria-hidden="true">?</span><p>There should always be something<br />here we can’t explain yet.</p><small>Ask again in six months.</small>
           </div>
           <p className="map-caption mono">SAME BODY OF WORK. DIFFERENT LEVELS OF ZOOM.</p>
         </section>
@@ -116,7 +118,7 @@ function App() {
       </section>
 
       <section className="closing section-wrap" aria-labelledby="closing-title">
-        <div className="closing-signal mono"><span>ALL BRANCHES RETURN TO THE QUESTION</span><span>↘</span></div><span className="closing-wordmark">negar</span><h2 id="closing-title">Negar is not a collection<br />of products.<br /><em>It’s a way of looking<br />at problems.</em></h2><p>Some things here are products.<br />Some are experiments.<br />Some are questions that haven’t found their product yet.</p><p className="invitation">If any of them are questions you’re thinking about too,<br />we’d like to hear from you.</p>
+        <div className="closing-signal mono"><span>ALL BRANCHES RETURN TO THE QUESTION</span><span>↘</span></div><img className="closing-wordmark" src={negarPrimaryLockup} alt="Negar Team" /><h2 id="closing-title">Negar is not a collection<br />of products.<br /><em>It’s a way of looking<br />at problems.</em></h2><p>Some things here are products.<br />Some are experiments.<br />Some are questions that haven’t found their product yet.</p><p className="invitation">If any of them are questions you’re thinking about too,<br />we’d like to hear from you.</p>
         <div className="closing-links"><a href="https://github.com/tahamoeini/negarteam" target="_blank" rel="noreferrer">Negar on GitHub <span>↗</span></a><a href="https://github.com/tahamoeini" target="_blank" rel="noreferrer">More open work <span>↗</span></a></div>
         <footer><span>NEGAR TEAM / INDEPENDENT WORKS</span><span>Lead. Laugh. Learn. Build what makes sense.</span><a href="#top">Back to the question ↑</a></footer>
       </section>

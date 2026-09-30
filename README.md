@@ -13,7 +13,7 @@ The site is designed around a continuous line: questions branch into projects, p
 ```text
 public/
   brand/README.md       Approved logo integration notes
-  favicon.svg           Temporary typographic favicon
+  favicon.png           Negar icon favicon
   robots.txt
 src/
   App.tsx                Page sections and interactions
@@ -55,7 +55,7 @@ Current descriptions were checked against the official repositories:
 
 ## Brand and content notes
 
-The repository was empty at implementation time and did not contain the approved Negar logo or palette. The site therefore uses a text wordmark and a provisional palette. The integration point and next steps are documented in `public/brand/README.md`; do not treat the favicon or type treatment as a replacement for the approved mark.
+The approved logo exports are available in `src/assets/`. The header uses the supplied logotype, the closing section uses the primary lockup, and the favicon uses the supplied mark. The image artwork is displayed at its original proportions without recoloring or effects. See `public/brand/README.md` for the asset map and background notes.
 
 The LinkedIn company page and contact address were not verifiable from the available official sources, so the footer currently points to the verified Negar GitHub repository and profile. Add a confirmed LinkedIn URL or contact address when one is available.
 
