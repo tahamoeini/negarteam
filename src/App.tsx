@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import negarLogotype from './assets/Negar-Team-Logotype.png'
 import negarPrimaryLockup from './assets/Negar-Team-Primary-Lockup.png'
 import { constraints, projects, type Perspective, type Project } from './data/projects'
@@ -6,6 +6,7 @@ import { copy, localeNames, localizedProject, pageMetadata, promptCopy, type Loc
 
 const locales: Locale[] = ['en', 'ru', 'zh']
 const perspectives: Perspective[] = ['products', 'questions', 'systems']
+type Theme = 'light' | 'dark'
 
 function projectLabel(project: Project, perspective: Perspective, locale: Locale) {
   const label = copy[locale].projectPerspective[perspective]
@@ -26,6 +27,8 @@ function Thread({ active, label }: { active: Perspective; label: string }) {
 
 function initialLocale(): Locale {
   try {
+    const requested = new URLSearchParams(window.location.search).get('lang')
+    if (requested === 'ru' || requested === 'zh' || requested === 'en') return requested
     const saved = localStorage.getItem('negar-locale')
     return saved === 'ru' || saved === 'zh' || saved === 'en' ? saved : 'en'
   } catch {
@@ -33,8 +36,54 @@ function initialLocale(): Locale {
   }
 }
 
+function savedTheme(): Theme | null {
+  try {
+    const saved = localStorage.getItem('negar-theme')
+    if (saved === 'light' || saved === 'dark') return saved
+  } catch {
+    // Fall back to the operating system preference when storage is unavailable.
+  }
+  return null
+}
+
+function initialTheme(): Theme {
+  return savedTheme() ?? (window.matchMedia?.('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
+}
+
+function setHeadLink(rel: string, href: string, hreflang?: string) {
+  const selector = `link[rel="${rel}"]${hreflang ? `[hreflang="${hreflang}"]` : ''}`
+  let link = document.head.querySelector<HTMLLinkElement>(selector)
+  if (!link) {
+    link = document.createElement('link')
+    link.rel = rel
+    if (hreflang) link.hreflang = hreflang
+    document.head.append(link)
+  }
+  link.href = href
+}
+
+function setHeadMeta(attribute: 'name' | 'property', name: string, content: string) {
+  let meta = document.head.querySelector<HTMLMetaElement>(`meta[${attribute}="${name}"]`)
+  if (!meta) {
+    meta = document.createElement('meta')
+    meta.setAttribute(attribute, name)
+    document.head.append(meta)
+  }
+  meta.content = content
+}
+
+function localizedUrl(siteUrl: URL, locale: Locale) {
+  const url = new URL(siteUrl.href)
+  url.search = ''
+  url.hash = ''
+  if (locale !== 'en') url.searchParams.set('lang', locale)
+  return url.href
+}
+
 function App() {
   const [locale, setLocale] = useState<Locale>(initialLocale)
+  const [theme, setTheme] = useState<Theme>(initialTheme)
+  const themeOverride = useRef(savedTheme() !== null)
   const [perspective, setPerspective] = useState<Perspective>('questions')
   const [step, setStep] = useState(0)
   const [showResult, setShowResult] = useState(false)
@@ -44,17 +93,64 @@ function App() {
   useEffect(() => {
     document.documentElement.lang = locale === 'zh' ? 'zh-Hans' : locale
     document.title = pageMetadata[locale].title
+    const localizedPage = new URL(window.location.href)
+    if (locale === 'en') localizedPage.searchParams.delete('lang')
+    else localizedPage.searchParams.set('lang', locale)
+    if (localizedPage.href !== window.location.href) {
+      window.history.replaceState(window.history.state, '', localizedPage.href)
+    }
     document.querySelector('meta[name="description"]')?.setAttribute('content', pageMetadata[locale].description)
     document.querySelector('meta[property="og:title"]')?.setAttribute('content', pageMetadata[locale].title)
     document.querySelector('meta[property="og:description"]')?.setAttribute('content', pageMetadata[locale].ogDescription)
+    document.querySelector('meta[property="og:locale"]')?.setAttribute('content', pageMetadata[locale].ogLocale)
     document.querySelector('meta[name="twitter:title"]')?.setAttribute('content', pageMetadata[locale].title)
     document.querySelector('meta[name="twitter:description"]')?.setAttribute('content', pageMetadata[locale].ogDescription)
+    const siteUrl = import.meta.env.VITE_SITE_URL
+    if (siteUrl) {
+      try {
+        const origin = new URL(siteUrl)
+        const canonicalUrl = localizedUrl(origin, locale)
+        setHeadLink('canonical', canonicalUrl)
+        setHeadLink('alternate', localizedUrl(origin, 'en'), 'en')
+        setHeadLink('alternate', localizedUrl(origin, 'ru'), 'ru')
+        setHeadLink('alternate', localizedUrl(origin, 'zh'), 'zh-Hans')
+        setHeadLink('alternate', localizedUrl(origin, 'en'), 'x-default')
+        setHeadMeta('property', 'og:url', canonicalUrl)
+      } catch {
+        // Leave domain-specific SEO links unset until VITE_SITE_URL is valid.
+      }
+    }
     try {
       localStorage.setItem('negar-locale', locale)
     } catch {
       // Language switching remains available when storage is disabled.
     }
   }, [locale])
+
+  useEffect(() => {
+    document.documentElement.dataset.theme = theme
+    document.querySelector('meta[name="theme-color"]')?.setAttribute('content', theme === 'dark' ? '#172321' : '#f4f2ed')
+  }, [theme])
+
+  useEffect(() => {
+    const systemTheme = window.matchMedia('(prefers-color-scheme: dark)')
+    const followSystemTheme = () => {
+      if (!themeOverride.current) setTheme(systemTheme.matches ? 'dark' : 'light')
+    }
+    systemTheme.addEventListener('change', followSystemTheme)
+    return () => systemTheme.removeEventListener('change', followSystemTheme)
+  }, [])
+
+  function toggleTheme() {
+    const nextTheme = theme === 'dark' ? 'light' : 'dark'
+    themeOverride.current = true
+    setTheme(nextTheme)
+    try {
+      localStorage.setItem('negar-theme', nextTheme)
+    } catch {
+      // Theme switching remains available when storage is disabled.
+    }
+  }
 
   function nextPrompt() {
     if (step === translatedPrompts.length - 1) setShowResult(true)
@@ -67,10 +163,13 @@ function App() {
       <a className="wordmark" href="#top" aria-label={t.home}><img className="wordmark-logotype" src={negarLogotype} alt="" /></a>
       <div className="header-actions">
         <a className="header-index" href="#questions">{t.header} <span aria-hidden="true">↘</span></a>
-        <fieldset className="locale-switch">
-          <legend className="visually-hidden">{t.languageLabel}</legend>
-          {locales.map(item => <label key={item} lang={item === 'zh' ? 'zh-Hans' : item}><input type="radio" name="locale" value={item} aria-label={localeNames[item]} checked={locale === item} onChange={() => setLocale(item)} /><span aria-hidden="true">{item.toUpperCase()}</span></label>)}
-        </fieldset>
+        <div className="header-controls">
+          <fieldset className="locale-switch">
+            <legend className="visually-hidden">{t.languageLabel}</legend>
+            {locales.map(item => <label key={item} lang={item === 'zh' ? 'zh-Hans' : item}><input type="radio" name="locale" value={item} aria-label={localeNames[item]} checked={locale === item} onChange={() => setLocale(item)} /><span aria-hidden="true">{item.toUpperCase()}</span></label>)}
+          </fieldset>
+          <button className="theme-toggle" type="button" aria-label={theme === 'dark' ? t.theme.switchToLight : t.theme.switchToDark} title={theme === 'dark' ? t.theme.switchToLight : t.theme.switchToDark} onClick={toggleTheme}>{theme === 'dark' ? t.theme.light : t.theme.dark}</button>
+        </div>
       </div>
     </header>
     <main id="main">

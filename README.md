@@ -4,14 +4,13 @@ A one-page site that presents Negar as an evolving body of questions, products, 
 
 The site is designed around a continuous line: questions branch into projects, pause at an interrupt, and converge again. Visitors can switch the project map between product, question, and system perspectives. The project list and the short “Would Negar build it?” thought experiment remain accessible as ordinary content and controls.
 
-The page is available in English, Russian, and Simplified Chinese. The header language selector updates page copy and metadata, and saves the selected language locally in the visitor’s browser.
-
+The page is available in English, Russian, and Simplified Chinese. The header language selector updates page copy and metadata, supports shareable `?lang=ru` and `?lang=zh` URLs, and remembers the selected language locally. The light and dark themes follow the operating system by default; a visitor can choose and save a theme from the header.
 
 ## Stack and structure
 
 - React 19, TypeScript, and Vite
 - Plain CSS and a small inline SVG for the map thread
-- No UI, animation, analytics, or runtime service dependencies
+- No UI framework, animation, analytics, or runtime service dependencies
 
 ```text
 public/
@@ -63,7 +62,7 @@ The approved logo exports are available in `src/assets/`. The header uses the su
 
 The LinkedIn company page and contact address were not verifiable from the available official sources, so the footer currently points to the verified Negar GitHub repository and profile. Add a confirmed LinkedIn URL or contact address when one is available.
 
-No canonical URL or sitemap is configured. Add both when the production domain is known.
+Set `VITE_SITE_URL` to the confirmed production origin at build time to emit localized canonical URLs, `hreflang` alternates, and the Open Graph URL. It is intentionally unset until the production domain is confirmed; a sitemap should be added at that point too.
 
 ## Accessibility and motion
 
