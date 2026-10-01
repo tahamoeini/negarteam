@@ -13,6 +13,7 @@ type LocalizedPrompt = { statement: string; response: string }
 
 type Copy = {
   languageLabel: string
+  theme: { switchToDark: string; switchToLight: string; dark: string; light: string }
   skip: string
   home: string
   header: string
@@ -31,7 +32,7 @@ type Copy = {
 
 export const copy: Record<Locale, Copy> = {
   en: {
-    languageLabel: 'Language', skip: 'Skip to content', home: 'Negar Team, home', header: 'A map of what we’re figuring out',
+    languageLabel: 'Language', theme: { switchToDark: 'Switch to dark theme', switchToLight: 'Switch to light theme', dark: 'Dark', light: 'Light' }, skip: 'Skip to content', home: 'Negar Team, home', header: 'A map of what we’re figuring out',
     hero: { index: 'FIELD NOTES', indexDate: '001 — ONGOING', title: ['Some things begin', 'as products.', 'Some begin as questions.'], summary: 'Negar is where we find out\nwhich is which.', fields: ['Technology', 'Products', 'Systems', 'Research', 'Experiments'], enter: 'Enter the map', foot: ['NO MASTER PLAN', 'JUST A RECURRING QUESTION'] },
     origin: { kicker: 'THERE WAS NO MASTER PLAN', heading: 'Negar didn’t begin\nwith a market category.', habit: 'It grew from a habit:', thought: 'when something doesn’t make sense,\ninvestigate it.', outcomes: ['Sometimes the answer is software.', 'Sometimes infrastructure.', 'Sometimes research.', 'Sometimes an experiment.', 'And sometimes the original question was wrong.'], note: 'Those are usually\nthe interesting ones.' },
     questions: { kicker: 'CURRENT QUESTIONS', kickerNote: 'the question comes first', heading: 'A few things\nwe’re trying to make sense of.', view: 'View this map as', choose: 'Choose map perspective', perspectives: { products: 'Products', questions: 'Questions', systems: 'Systems' }, form: 'CURRENT FORM', system: 'SYSTEM', unknownLabel: 'Unfinished question node', unknown: 'There should always be something\nhere we can’t explain yet.', askAgain: 'Ask again in six months.', caption: 'SAME BODY OF WORK. DIFFERENT LEVELS OF ZOOM.' },
@@ -45,7 +46,7 @@ export const copy: Record<Locale, Copy> = {
     projects: {},
   },
   ru: {
-    languageLabel: 'Язык', skip: 'Перейти к содержимому', home: 'Negar Team — на главную', header: 'Карта вопросов, над которыми мы работаем',
+    languageLabel: 'Язык', theme: { switchToDark: 'Включить тёмную тему', switchToLight: 'Включить светлую тему', dark: 'Тёмная', light: 'Светлая' }, skip: 'Перейти к содержимому', home: 'Negar Team — на главную', header: 'Карта вопросов, над которыми мы работаем',
     hero: { index: 'ПОЛЕВЫЕ ЗАМЕТКИ', indexDate: '001 — ПРОДОЛЖАЕТСЯ', title: ['Некоторые идеи начинаются', 'с продукта.', 'Другие — с вопроса.'], summary: 'В Negar мы выясняем,\nчто есть что.', fields: ['Технологии', 'Продукты', 'Системы', 'Исследования', 'Эксперименты'], enter: 'Открыть карту', foot: ['БЕЗ ГЛАВНОГО ПЛАНА', 'ТОЛЬКО ВОЗВРАЩАЮЩИЙСЯ ВОПРОС'] },
     origin: { kicker: 'ГЛАВНОГО ПЛАНА НЕ БЫЛО', heading: 'Negar начался\nне с рыночной категории.', habit: 'Всё выросло из привычки:', thought: 'если что-то непонятно,\nнадо разобраться.', outcomes: ['Иногда ответ — программное обеспечение.', 'Иногда — инфраструктура.', 'Иногда — исследование.', 'Иногда — эксперимент.', 'А иногда неверным был сам исходный вопрос.'], note: 'Обычно именно они\nсамые интересные.' },
     questions: { kicker: 'ТЕКУЩИЕ ВОПРОСЫ', kickerNote: 'сначала — вопрос', heading: 'Несколько вещей,\nв которых мы пытаемся разобраться.', view: 'Показать карту по темам', choose: 'Выбрать ракурс карты', perspectives: { products: 'Продукты', questions: 'Вопросы', systems: 'Системы' }, form: 'ТЕКУЩАЯ ФОРМА', system: 'СИСТЕМА', unknownLabel: 'Незавершённый вопрос', unknown: 'Здесь всегда должно оставаться\nто, что мы пока не можем объяснить.', askAgain: 'Вернуться к этому через полгода.', caption: 'ОДНА И ТА ЖЕ РАБОТА. РАЗНЫЙ УРОВЕНЬ ПРИБЛИЖЕНИЯ.' },
@@ -64,7 +65,7 @@ export const copy: Record<Locale, Copy> = {
     },
   },
   zh: {
-    languageLabel: '语言', skip: '跳转到正文', home: 'Negar Team 首页', header: '我们正在探索的问题地图',
+    languageLabel: '语言', theme: { switchToDark: '切换到深色主题', switchToLight: '切换到浅色主题', dark: '深色', light: '浅色' }, skip: '跳转到正文', home: 'Negar Team 首页', header: '我们正在探索的问题地图',
     hero: { index: '观察笔记', indexDate: '001 — 持续更新', title: ['有些事情始于产品，', '有些事情', '始于一个问题。'], summary: 'Negar 的工作，是在这里\n弄清楚其中的区别。', fields: ['技术', '产品', '系统', '研究', '实验'], enter: '进入地图', foot: ['没有总计划', '只有一个反复出现的问题'] },
     origin: { kicker: '一开始并没有总计划', heading: 'Negar 并非始于\n某个市场类别。', habit: '它源于一个习惯：', thought: ['遇到不明白的事，', '就去弄清楚。'].join('\n'), outcomes: ['有时，答案是软件。', '有时，是基础设施。', '有时，是研究。', '有时，是实验。', '有时，最初的问题本身就错了。'], note: '往往正是这些问题\n最有意思。' },
     questions: { kicker: '当前的问题', kickerNote: '先问问题', heading: '有些事情，\n我们还在努力弄明白。', view: '地图视角', choose: '选择地图视角', perspectives: { products: '产品', questions: '问题', systems: '系统' }, form: '当前形态', system: '系统', unknownLabel: '尚未完成的问题节点', unknown: '这里始终应该留有一些\n我们还无法解释的事情。', askAgain: '六个月后再来看看。', caption: '同一份工作，不同的观察层次。' },
@@ -102,10 +103,10 @@ export const promptCopy: Record<Locale, readonly LocalizedPrompt[]> = {
   ],
 }
 
-export const pageMetadata: Record<Locale, { title: string; description: string; ogDescription: string }> = {
-  en: { title: 'Negar Team — Build what makes sense', description: 'Negar is an evolving body of technology, products, systems, research and experiments. When something doesn’t make sense, investigate it.', ogDescription: 'A living map of questions becoming products, infrastructure, research and experiments.' },
-  ru: { title: 'Negar Team — Создавать то, что имеет смысл', description: 'Negar — это развивающееся пространство технологий, продуктов, систем, исследований и экспериментов. Если что-то непонятно — надо разобраться.', ogDescription: 'Живая карта вопросов, которые становятся продуктами, инфраструктурой, исследованиями и экспериментами.' },
-  zh: { title: 'Negar Team — 创造真正有意义的事物', description: 'Negar 是一个不断发展的技术、产品、系统、研究与实验集合。遇到不明白的事，就去弄清楚。', ogDescription: '一张不断演变的问题地图，记录问题如何成为产品、基础设施、研究与实验。' },
+export const pageMetadata: Record<Locale, { title: string; description: string; ogDescription: string; ogLocale: string }> = {
+  en: { title: 'Negar Team — Build what makes sense', description: 'Negar is an evolving body of technology, products, systems, research and experiments. When something doesn’t make sense, investigate it.', ogDescription: 'A living map of questions becoming products, infrastructure, research and experiments.', ogLocale: 'en_US' },
+  ru: { title: 'Negar Team — Создавать то, что имеет смысл', description: 'Negar — это развивающееся пространство технологий, продуктов, систем, исследований и экспериментов. Если что-то непонятно — надо разобраться.', ogDescription: 'Живая карта вопросов, которые становятся продуктами, инфраструктурой, исследованиями и экспериментами.', ogLocale: 'ru_RU' },
+  zh: { title: 'Negar Team — 创造真正有意义的事物', description: 'Negar 是一个不断发展的技术、产品、系统、研究与实验集合。遇到不明白的事，就去弄清楚。', ogDescription: '一张不断演变的问题地图，记录问题如何成为产品、基础设施、研究与实验。', ogLocale: 'zh_CN' },
 }
 
 export function localizedProject<T extends Project>(project: T, locale: Locale): T {
