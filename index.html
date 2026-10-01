@@ -3,14 +3,34 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
     <meta name="theme-color" content="#f4f2ed" />
     <meta name="description" content="Negar is an evolving body of technology, products, systems, research and experiments. When something doesn't make sense, investigate it." />
     <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Negar Team" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:locale:alternate" content="ru_RU" />
+    <meta property="og:locale:alternate" content="zh_CN" />
     <meta property="og:title" content="Negar Team — Build what makes sense" />
     <meta property="og:description" content="A living map of questions becoming products, infrastructure, research and experiments." />
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:title" content="Negar Team — Build what makes sense" />
     <meta name="twitter:description" content="A living map of questions becoming products, infrastructure, research and experiments." />
+    <script>
+      (() => {
+        let savedTheme = null
+        try {
+          savedTheme = window.localStorage.getItem('negar-theme')
+        } catch {
+          // The system preference still provides a useful default.
+        }
+        const theme = savedTheme === 'light' || savedTheme === 'dark'
+          ? savedTheme
+          : window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+        document.documentElement.dataset.theme = theme
+        document.querySelector('meta[name="theme-color"]')?.setAttribute('content', theme === 'dark' ? '#172321' : '#f4f2ed')
+      })()
+    </script>
     <title>Negar Team — Build what makes sense</title>
     <link rel="icon" type="image/png" href="/favicon.png" />
   </head>
