@@ -1,7 +1,8 @@
 export type Perspective = 'products' | 'questions' | 'systems'
+export type ProjectId = 'glyphmend' | 'synthora' | 'ariadne' | 'smartpack'
 
 export type Project = {
-  id: string
+  id: ProjectId
   name: string
   question: string
   description: string
