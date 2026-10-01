@@ -100,3 +100,240 @@
     display: none;
   }
 }
+
+/* A compact, keyboard-operable language switch sits with the page index. */
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 1.1rem;
+}
+
+.locale-switch {
+  display: flex;
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.locale-switch label {
+  position: relative;
+  display: block;
+  min-width: 2.65rem;
+  min-height: 2.75rem;
+  cursor: pointer;
+}
+
+.locale-switch input,
+.perspective-option input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.locale-switch label span {
+  display: grid;
+  min-height: 2.75rem;
+  place-items: center;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  padding: .5rem;
+  color: var(--muted);
+  font: .64rem var(--mono);
+  pointer-events: none;
+}
+
+.locale-switch label:hover span {
+  color: var(--ink);
+}
+
+.locale-switch input:checked + span {
+  border-bottom-color: var(--ochre);
+  color: var(--ink);
+}
+
+.locale-switch input:focus-visible + span {
+  outline: 2px solid var(--ochre);
+  outline-offset: -4px;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.perspective-control-options {
+  display: flex;
+  border-bottom: 1px solid var(--line);
+}
+
+.perspective-option {
+  position: relative;
+  display: block;
+  color: var(--muted);
+  cursor: pointer;
+}
+
+.perspective-option:first-child span {
+  padding-left: 0;
+}
+
+.perspective-option span {
+  position: relative;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  padding: .55rem .7rem .65rem;
+  color: var(--muted);
+  font: .71rem var(--mono);
+  pointer-events: none;
+}
+
+.perspective-option input:checked + span {
+  border-bottom-color: var(--ochre);
+  color: var(--ink);
+}
+
+.perspective-option input:focus-visible + span {
+  outline: 2px solid var(--ochre);
+  outline-offset: -4px;
+}
+
+.origin-copy h2,
+.questions-intro h2,
+.constraints-head h2 {
+  white-space: pre-line;
+}
+
+.origin-copy .big-thought,
+.origin-copy .margin-note,
+.unknown-node p {
+  white-space: pre-line;
+}
+
+.hero-bottom > p {
+  white-space: pre-line;
+}
+
+.hero-meta-item {
+  display: inline-flex;
+  align-items: center;
+  gap: .55rem;
+}
+
+html[lang="ru"] .hero h1,
+html[lang="ru"] .closing h2,
+html[lang="ru"] .interrupt-content h2,
+html[lang="ru"] .decision-main h2 {
+  letter-spacing: -.045em;
+}
+
+html[lang="zh-Hans"] {
+  font-family: Inter, "Noto Sans CJK SC", "Microsoft YaHei", "PingFang SC", system-ui, sans-serif;
+  --serif: "Noto Serif CJK SC", "Songti SC", "SimSun", Georgia, serif;
+}
+
+html[lang="zh-Hans"] .hero h1,
+html[lang="zh-Hans"] .origin-copy h2,
+html[lang="zh-Hans"] .questions-intro h2,
+html[lang="zh-Hans"] .constraints-head h2,
+html[lang="zh-Hans"] .domains > h2,
+html[lang="zh-Hans"] .interrupt-content h2,
+html[lang="zh-Hans"] .decision-main h2,
+html[lang="zh-Hans"] .closing h2,
+html[lang="zh-Hans"] .project-question p,
+html[lang="zh-Hans"] .margin-copy h2,
+html[lang="zh-Hans"] .big-thought {
+  letter-spacing: 0;
+  line-height: 1.35;
+}
+
+html[lang="zh-Hans"] .project-question p,
+html[lang="zh-Hans"] .project.is-featured .project-question p {
+  font-size: clamp(1.25rem, 2.2vw, 2rem);
+}
+
+html[lang="zh-Hans"] .project-answer,
+html[lang="zh-Hans"] .unknown-node,
+html[lang="zh-Hans"] .section-kicker,
+html[lang="zh-Hans"] .project-index {
+  letter-spacing: .02em;
+}
+
+@media (max-width: 600px) {
+  .header-actions {
+    align-items: flex-end;
+    flex-direction: column;
+    gap: .15rem;
+  }
+
+  .header-index {
+    max-width: 150px;
+  }
+
+  .locale-switch label,
+  .locale-switch label span {
+    min-width: 2.75rem;
+    min-height: 2.75rem;
+  }
+
+  .hero h1 {
+    max-width: 100%;
+    overflow-wrap: anywhere;
+  }
+
+  .enter-link {
+    position: relative;
+    right: auto;
+    bottom: auto;
+    align-self: flex-start;
+    flex-direction: row;
+    margin-top: 1.4rem;
+  }
+
+  .hero-meta {
+    font-size: .57rem;
+  }
+
+  .hero-foot {
+    gap: 1rem;
+    font-size: .54rem;
+  }
+
+  .hero-foot span:last-child {
+    max-width: 46%;
+  }
+
+  .interrupt-top span:last-child {
+    max-width: 82px;
+    text-align: right;
+  }
+
+  .interrupt-top,
+  .closing-signal,
+  .closing footer {
+    font-size: .54rem;
+  }
+
+  .project-system {
+    font-size: .55rem;
+  }
+
+  .closing-signal span:first-child {
+    max-width: 82%;
+  }
+}
