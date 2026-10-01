@@ -4,6 +4,9 @@ A one-page site that presents Negar as an evolving body of questions, products, 
 
 The site is designed around a continuous line: questions branch into projects, pause at an interrupt, and converge again. Visitors can switch the project map between product, question, and system perspectives. The project list and the short “Would Negar build it?” thought experiment remain accessible as ordinary content and controls.
 
+The page is available in English, Russian, and Simplified Chinese. The header language selector updates page copy and metadata, and saves the selected language locally in the visitor’s browser.
+
+
 ## Stack and structure
 
 - React 19, TypeScript, and Vite
@@ -18,6 +21,7 @@ public/
 src/
   App.tsx                Page sections and interactions
   data/projects.ts       Project descriptions, constraints, and prompts
+  i18n.ts                English, Russian, and Simplified Chinese interface and project copy
   styles.css             Layout, visual system, and responsive rules
   main.tsx
 ```
