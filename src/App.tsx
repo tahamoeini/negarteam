@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from 'react'
-import negarLogotype from './assets/Negar-Team-Logotype.png'
 import negarPrimaryLockup from './assets/Negar-Team-Primary-Lockup.png'
 import { constraints, projects, type Perspective, type Project } from './data/projects'
 import { copy, localeNames, localizedProject, pageMetadata, promptCopy, type Locale } from './i18n'
@@ -160,7 +159,7 @@ function App() {
   return <>
     <a className="skip-link" href="#main">{t.skip}</a>
     <header className="site-header">
-      <a className="wordmark" href="#top" aria-label={t.home}><img className="wordmark-logotype" src={negarLogotype} alt="" /></a>
+      <a className="wordmark" href="#top" aria-label={t.home}><img className="brand-lockup brand-lockup--header" src={negarPrimaryLockup} alt="" /></a>
       <div className="header-actions">
         <a className="header-index" href="#questions">{t.header} <span aria-hidden="true">↘</span></a>
         <div className="header-controls">
@@ -254,7 +253,7 @@ function App() {
       </section>
 
       <section className="closing section-wrap" aria-labelledby="closing-title">
-        <div className="closing-signal mono"><span>{t.closing.signal}</span><span aria-hidden="true">↘</span></div><img className="closing-wordmark" src={negarPrimaryLockup} alt="Negar Team" /><h2 id="closing-title">{t.closing.title[0]}<br />{t.closing.title[1]}<br /><em>{t.closing.title[2]}<br />{t.closing.title[3]}</em></h2><p>{t.closing.paragraphs.map(line => <span key={line}>{line}<br /></span>)}</p><p className="invitation">{t.closing.invitation[0]}<br />{t.closing.invitation[1]}</p>
+        <div className="closing-signal mono"><span>{t.closing.signal}</span><span aria-hidden="true">↘</span></div><img className="brand-lockup brand-lockup--footer" src={negarPrimaryLockup} alt="Negar Team" /><h2 id="closing-title">{t.closing.title[0]}<br />{t.closing.title[1]}<br /><em>{t.closing.title[2]}<br />{t.closing.title[3]}</em></h2><p>{t.closing.paragraphs.map(line => <span key={line}>{line}<br /></span>)}</p><p className="invitation">{t.closing.invitation[0]}<br />{t.closing.invitation[1]}</p>
         <div className="closing-links"><a href="https://github.com/tahamoeini/negarteam" target="_blank" rel="noreferrer">{t.closing.github} <span aria-hidden="true">↗</span></a><a href="https://github.com/tahamoeini" target="_blank" rel="noreferrer">{t.closing.more} <span aria-hidden="true">↗</span></a></div>
         <footer><span>{t.closing.footer[0]}</span><span>{t.closing.footer[1]}</span><a href="#top">{t.closing.back} ↑</a></footer>
       </section>
