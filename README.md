@@ -1,8 +1,14 @@
-# Negar Team — The Negar Map
+<p align="center">
+  <img src="src/assets/Negar-Team-Logo.png" alt="Negar Team logo" width="72" height="72">
+</p>
 
-A one-page site that presents Negar as an evolving body of questions, products, systems, research, and experiments.
+<h1 align="center">Negar Team — The Negar Map</h1>
 
-The site is designed around a continuous line: questions branch into projects, pause at an interrupt, and converge again. Visitors can switch the project map between product, question, and system perspectives. The project list and the short “Would Negar build it?” thought experiment remain accessible as ordinary content and controls.
+<p align="center"><strong>An evolving, question-led map of products, systems, research, experiments, and unresolved ideas.</strong></p>
+
+<p align="center">The site is designed around a continuous line: questions branch into projects, pause at an interrupt, and converge again. Visitors can switch the project map between product, question, and system perspectives. The project list and the short “Would Negar build it?” thought experiment remain accessible as ordinary content and controls.</p>
+
+<p align="center"><a href="https://negar.team/" target="_blank" rel="noopener noreferrer">Open the Negar Map</a></p>
 
 The page is available in English, Russian, and Simplified Chinese. The header language selector updates page copy and metadata, supports shareable `?lang=ru` and `?lang=zh` URLs, and remembers the selected language locally. The light and dark themes follow the operating system by default; a visitor can choose and save a theme from the header.
 
