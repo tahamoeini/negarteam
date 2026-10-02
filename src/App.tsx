@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import negarMark from './assets/Negar-Team-Logo.png'
 import negarPrimaryLockup from './assets/Negar-Team-Primary-Lockup.png'
 import { constraints, projects, type Perspective, type Project } from './data/projects'
 import { copy, localeNames, localizedProject, pageMetadata, promptCopy, type Locale } from './i18n'

@@ -58,7 +58,7 @@ Current descriptions were checked against the official repositories:
 
 ## Brand and content notes
 
-The approved logo exports are available in `src/assets/`. The header uses the supplied logotype, the closing section uses the primary lockup, and the favicon uses the supplied mark. The image artwork is displayed at its original proportions without recoloring or effects. See `public/brand/README.md` for the asset map and background notes.
+The approved logo exports are available in `src/assets/`. The header and closing section use the primary lockup; the hero and favicon use the supplied mark. The image artwork keeps its original proportions. See `public/brand/README.md` for the asset map and theme treatment.
 
 The LinkedIn company page and contact address were not verifiable from the available official sources, so the footer currently points to the verified Negar GitHub repository and profile. Add a confirmed LinkedIn URL or contact address when one is available.
 
