@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
-import negarMark from './assets/Negar-Team-Logo.png'
 import negarPrimaryLockup from './assets/Negar-Team-Primary-Lockup.png'
-import { constraints, projects, type Perspective, type Project } from './data/projects'
+import { constraints, projects, type Perspective, type Project, type ProjectId } from './data/projects'
 import { copy, localeNames, localizedProject, pageMetadata, promptCopy, type Locale } from './i18n'
 
 const locales: Locale[] = ['en', 'ru', 'zh']
@@ -13,6 +12,55 @@ function projectLabel(project: Project, perspective: Perspective, locale: Locale
   if (perspective === 'questions') return `${label} / ${project.category}`
   if (perspective === 'systems') return `${label} / ${project.system}`
   return `${label} / ${project.name}`
+}
+
+type StudioMarkVariant = 'origin' | 'pause' | 'boundary' | 'test' | 'margin' | 'closing'
+
+const studioMarks: Record<StudioMarkVariant, { trace: string; echo: string; point: [number, number] }> = {
+  origin: { trace: 'M9 51 C18 19 39 9 57 19 C72 27 72 44 60 51 C48 58 37 49 41 39 C44 31 53 29 61 34', echo: 'M8 58 C25 65 48 61 70 47', point: [17, 38] },
+  pause: { trace: 'M27 10 C22 22 31 34 26 47 C24 52 25 57 27 62', echo: 'M49 8 C44 20 52 32 47 43 C44 50 46 56 49 62', point: [62, 53] },
+  boundary: { trace: 'M14 19 C22 13 32 16 39 13 C48 10 57 14 65 12 M15 19 C13 30 17 42 13 53 C21 60 31 55 39 59 C48 62 57 56 66 59', echo: 'M22 26 C33 23 43 27 54 24 M22 47 C33 50 43 46 55 49', point: [66, 59] },
+  test: { trace: 'M48 12 C34 7 19 15 14 28 C8 44 18 59 34 61 C48 63 61 52 62 38 C63 31 60 24 55 19', echo: 'M25 39 L34 30 L41 43 L52 25', point: [56, 54] },
+  margin: { trace: 'M8 43 C17 31 22 54 33 41 C42 30 47 31 54 39 C61 47 67 44 74 28', echo: 'M10 53 C24 59 41 55 57 49', point: [74, 28] },
+  closing: { trace: 'M10 49 C22 17 43 8 59 19 C75 30 71 49 58 54 C45 60 35 49 40 39 C44 31 53 30 61 36', echo: 'M12 58 C30 65 51 61 71 47', point: [71, 47] },
+}
+
+function StudioMark({ variant, className = '' }: { variant: StudioMarkVariant; className?: string }) {
+  const mark = studioMarks[variant]
+  return <svg className={`studio-mark studio-mark--${variant} ${className}`.trim()} viewBox="0 0 80 72" aria-hidden="true" focusable="false">
+    <path className="studio-mark__echo" d={mark.echo} />
+    <path className="studio-mark__trace" d={mark.trace} />
+    <circle className="studio-mark__point" cx={mark.point[0]} cy={mark.point[1]} r="2.3" />
+  </svg>
+}
+
+function ProjectGlyph({ id }: { id: ProjectId }) {
+  return <svg className="project-glyph" viewBox="0 0 56 56" aria-hidden="true" focusable="false">
+    <g fill="none" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round">
+      {id === 'glyphmend' && <>
+        <path d="M13 8.5h18l11 11V47H13z" />
+        <path d="M31 9v11h11M20 27h16M20 33h16" />
+        <path className="project-glyph__accent" d="M20 40h9" />
+      </>}
+      {id === 'synthora' && <>
+        <path d="M11 44h35M13 39c7-1 7-19 15-19s8 17 15 12 7-16 12-14" />
+        <circle className="project-glyph__point" cx="28" cy="20" r="2.6" />
+        <circle className="project-glyph__point" cx="43" cy="32" r="2.6" />
+        <path className="project-glyph__accent" d="M44 17l8-4" />
+      </>}
+      {id === 'ariadne' && <>
+        <path d="M14 14c10-9 25-3 25 7 0 11-19 9-19 20 0 10 15 12 23 3 8-9 2-21-9-21" />
+        <circle className="project-glyph__point" cx="14" cy="14" r="2.6" />
+        <circle className="project-glyph__point" cx="43" cy="44" r="2.6" />
+        <path className="project-glyph__accent" d="M34 23c5 0 9 2 12 6" />
+      </>}
+      {id === 'smartpack' && <>
+        <path d="M10 18h36v28H10zM10 26h36M18 18v-6h20v6" />
+        <path d="M19 34h18" />
+        <path className="project-glyph__accent" d="M19 40h10" />
+      </>}
+    </g>
+  </svg>
 }
 
 function Thread({ active, label }: { active: Perspective; label: string }) {
@@ -188,6 +236,7 @@ function App() {
         <Thread active={perspective} label={t.questions.system} />
         <section className="origin section-wrap" id="origin" aria-labelledby="origin-title">
           <div className="section-kicker mono"><span>01</span><span>{t.origin.kicker}</span></div>
+          <StudioMark variant="origin" className="origin-sketch" />
           <div className="origin-copy">
             <h2 id="origin-title">{t.origin.heading}</h2>
             <p>{t.origin.habit}</p>
@@ -209,7 +258,7 @@ function App() {
                 <div className="project-index mono"><span>Q{String(index + 1).padStart(2, '0')}</span><span>{project.category}</span></div>
                 <div className="project-question"><span className="question-dot" aria-hidden="true" /><p>{project.question}</p></div>
                 <div className="project-answer">
-                  <div className="answer-label mono">{t.questions.form} <span aria-hidden="true">↳</span></div>
+                  <div className="answer-heading"><div className="answer-label mono">{t.questions.form} <span aria-hidden="true">↳</span></div><ProjectGlyph id={project.id} /></div>
                   <h3 lang="en">{project.name}</h3>
                   <p>{project.description}</p>
                   <div className="project-system"><span>{projectLabel(project, perspective, locale)}</span><span>{project.stage}</span></div>
@@ -227,17 +276,17 @@ function App() {
 
       <section className="interrupt" aria-labelledby="interrupt-title">
         <div className="interrupt-top mono"><span>{t.interrupt.top[0]}</span><span>{t.interrupt.top[1]}</span><span>{t.interrupt.top[2]}</span></div>
-        <div className="interrupt-content"><span className="interrupt-mark" aria-hidden="true">Ⅱ</span><p className="mono">{t.interrupt.question}</p><h2 id="interrupt-title">{t.interrupt.title[0]}<br />{t.interrupt.title[1]}<br /><em>{t.interrupt.title[2]}</em></h2><span className="interrupt-note">{t.interrupt.note}</span></div>
+        <div className="interrupt-content"><StudioMark variant="pause" className="interrupt-mark" /><p className="mono">{t.interrupt.question}</p><h2 id="interrupt-title">{t.interrupt.title[0]}<br />{t.interrupt.title[1]}<br /><em>{t.interrupt.title[2]}</em></h2><span className="interrupt-note">{t.interrupt.note}</span></div>
       </section>
 
       <section className="constraints section-wrap" aria-labelledby="constraints-title">
         <div className="section-kicker mono"><span>03</span><span>{t.constraints.kicker}</span></div>
-        <div className="constraints-head"><h2 id="constraints-title">{t.constraints.title[0]}<br />{t.constraints.title[1]}</h2><p>{t.constraints.aside[0]}<br />{t.constraints.aside[1]}</p></div>
+        <div className="constraints-head"><h2 id="constraints-title">{t.constraints.title[0]}<br />{t.constraints.title[1]}</h2><p>{t.constraints.aside[0]}<br />{t.constraints.aside[1]}</p><StudioMark variant="boundary" className="constraints-sketch" /></div>
         <ol className="constraint-list">{constraints.map(([code], index) => { const [name, description] = t.constraints.items[index]; return <li key={code}><span className="mono">{code}</span><h3>{name}</h3><p>{description}</p><span className="constraint-link" aria-hidden="true">↘</span></li> })}</ol>
       </section>
 
       <section className="decision section-wrap" aria-labelledby="decision-title">
-        <div className="decision-aside"><span className="mono">{t.test.asideLabel}</span><p>{t.test.aside[0]}<br />{t.test.aside[1]}</p></div>
+        <div className="decision-aside"><span className="mono">{t.test.asideLabel}</span><p>{t.test.aside[0]}<br />{t.test.aside[1]}</p><StudioMark variant="test" className="decision-sketch" /></div>
         <div className="decision-main"><div className="section-kicker mono"><span>04</span><span>{t.test.kicker}</span></div><h2 id="decision-title">{t.test.title[0]}<br /><em>{t.test.title[1]}</em></h2>
           {!showResult ? <div className="test-console" aria-live="polite"><div className="test-progress mono">{t.test.question} {String(step + 1).padStart(2, '0')} <span>/ {String(translatedPrompts.length).padStart(2, '0')}</span></div><p className="test-statement">“{translatedPrompts[step].statement}”</p><div className="test-response"><span className="mono">{t.test.currentRead}</span><strong>{translatedPrompts[step].response}</strong></div><button type="button" className="test-next" onClick={nextPrompt}>{step === translatedPrompts.length - 1 ? t.test.seeResult : t.test.next} <span aria-hidden="true">→</span></button></div> : <div className="test-result" aria-live="polite"><span className="mono">{t.test.conclusion}</span><p>{t.test.result[0]}<br /><em>{t.test.result[1]}</em></p><button type="button" className="text-button" onClick={() => { setStep(0); setShowResult(false) }}>{t.test.again} <span aria-hidden="true">↺</span></button></div>}
         </div>
@@ -245,16 +294,22 @@ function App() {
 
       <section className="domains section-wrap" aria-labelledby="domains-title">
         <div className="section-kicker mono"><span>05</span><span>{t.domains.kicker}</span></div><h2 id="domains-title">{t.domains.title[0]}<br />{t.domains.title[1]}</h2>
-        <div className="domain-flow">{t.domains.items.map(([verb, name, description], index) => <div key={name}><span className="mono">0{index + 1} / {verb}</span><h3>{name}</h3><p>{description}</p></div>)}</div>
+        <div className="domain-flow">
+          <svg className="domain-route" viewBox="0 0 1000 60" preserveAspectRatio="none" aria-hidden="true">
+            <path d="M0 31 C70 31 91 24 153 27 S235 38 250 32 S348 24 402 28 S485 38 500 31 S598 24 652 28 S735 38 750 31 S850 25 1000 30" />
+            {[0, 250, 500, 750].map((x, index) => <circle key={index} cx={x} cy={x === 250 || x === 750 ? 32 : 31} r="3.2" />)}
+          </svg>
+          {t.domains.items.map(([verb, name, description], index) => <div key={name}><span className="mono">0{index + 1} / {verb}</span><h3>{name}</h3><p>{description}</p></div>)}
+        </div>
         <p className="margin-note note-domains">{t.domains.note}</p>
       </section>
 
       <section className="margin-section section-wrap" aria-labelledby="margin-title">
-        <div className="margin-rule" aria-hidden="true" /><div className="margin-label mono">{t.margin.label}</div><div className="margin-copy"><h2 id="margin-title">{t.margin.title[0]}<br /><em>{t.margin.title[1]}</em></h2><p>{t.margin.paragraphs[0]}</p><p>{t.margin.paragraphs[1]}</p><span>{t.margin.author}</span></div>
+        <div className="margin-rule" aria-hidden="true" /><div className="margin-label mono">{t.margin.label}<StudioMark variant="margin" className="margin-sketch" /></div><div className="margin-copy"><h2 id="margin-title">{t.margin.title[0]}<br /><em>{t.margin.title[1]}</em></h2><p>{t.margin.paragraphs[0]}</p><p>{t.margin.paragraphs[1]}</p><span>{t.margin.author}</span></div>
       </section>
 
       <section className="closing section-wrap" aria-labelledby="closing-title">
-        <div className="closing-signal mono"><span>{t.closing.signal}</span><span aria-hidden="true">↘</span></div><img className="brand-lockup brand-lockup--footer" src={negarPrimaryLockup} alt="Negar Team" /><h2 id="closing-title">{t.closing.title[0]}<br />{t.closing.title[1]}<br /><em>{t.closing.title[2]}<br />{t.closing.title[3]}</em></h2><p>{t.closing.paragraphs.map(line => <span key={line}>{line}<br /></span>)}</p><p className="invitation">{t.closing.invitation[0]}<br />{t.closing.invitation[1]}</p>
+        <div className="closing-signal mono"><span>{t.closing.signal}</span><StudioMark variant="closing" className="closing-sketch" /></div><img className="brand-lockup brand-lockup--footer" src={negarPrimaryLockup} alt="Negar Team" /><h2 id="closing-title">{t.closing.title[0]}<br />{t.closing.title[1]}<br /><em>{t.closing.title[2]}<br />{t.closing.title[3]}</em></h2><p>{t.closing.paragraphs.map(line => <span key={line}>{line}<br /></span>)}</p><p className="invitation">{t.closing.invitation[0]}<br />{t.closing.invitation[1]}</p>
         <div className="closing-links"><a href="https://github.com/tahamoeini/negarteam" target="_blank" rel="noreferrer">{t.closing.github} <span aria-hidden="true">↗</span></a><a href="https://github.com/tahamoeini" target="_blank" rel="noreferrer">{t.closing.more} <span aria-hidden="true">↗</span></a></div>
         <footer><span>{t.closing.footer[0]}</span><span>{t.closing.footer[1]}</span><a href="#top">{t.closing.back} ↑</a></footer>
       </section>
