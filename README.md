@@ -17,7 +17,7 @@ The page is available in English, Russian, and Simplified Chinese. The header la
 - React 19, TypeScript, and Vite
 - Plain CSS and a small inline SVG for the map thread
 - No additional UI framework or animation; no required runtime service dependency
-- Optional PostHog analytics uses a preconfigured public project token for production builds; no in-app setup prompt is shown
+- Optional PostHog analytics uses a Cloudflare Pages secret through a same-origin proxy; no in-app setup prompt is shown
 
 ```text
 public/
@@ -33,9 +33,9 @@ src/
 ```
 
 ## Optional analytics
+Negar.team uses a same-origin Cloudflare Pages Function with the encrypted `POSTHOG_PROJECT_TOKEN` secret. The browser bundle contains a proxy placeholder, not the project token. It captures `product_opened`, allowlisted route views, safe button/link interaction categories, and feature-flag evaluations. Analytics sends no form values, user content, imported documents, portfolio data, query strings, or user-created labels. Map contents, participant details, project notes, and test answers are excluded from analytics.
 
-Negar Team sends one product_opened event per production page load without an in-app setup prompt. The app name is its only custom event property. PostHog also receives a session-scoped anonymous identifier and ordinary request metadata such as IP address and browser details. Automatic page views, autocapture, session replay, exception capture, feature flags, and map or workspace content are disabled. The public project token is preconfigured; set VITE_POSTHOG_PROJECT_TOKEN to override it or to an empty string to disable analytics.
-
+Feature flags are enabled. Session replay, surveys, autocapture, and exception capture are off by default, and survey auto-display is disabled. No in-app setup or project-selection prompt is shown. See [docs/posthog-analytics.md](docs/posthog-analytics.md) for the Cloudflare secret, options, and privacy boundary.
 ## Run locally
 
 Requires Node.js 20.19+ or 22.12+.
