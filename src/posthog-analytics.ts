@@ -17,7 +17,6 @@ type PostHogOptions = {
   capture_exceptions: false;
   disable_session_recording: true;
   disable_surveys: true;
-  disable_surveys_automatic_display: true;
   advanced_disable_flags: true;
   person_profiles: "never";
   persistence: "sessionStorage";
@@ -51,7 +50,6 @@ function posthogOptions(): PostHogOptions {
     capture_exceptions: false,
     disable_session_recording: true,
     disable_surveys: true,
-    disable_surveys_automatic_display: true,
     advanced_disable_flags: true,
     person_profiles: "never",
     persistence: "sessionStorage",
