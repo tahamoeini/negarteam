@@ -16,7 +16,8 @@ The page is available in English, Russian, and Simplified Chinese. The header la
 
 - React 19, TypeScript, and Vite
 - Plain CSS and a small inline SVG for the map thread
-- No UI framework, animation, analytics, or runtime service dependencies
+- No additional UI framework or animation; no required runtime service dependency
+- Optional PostHog analytics is inactive until a public project token is configured for production; no in-app setup prompt is shown
 
 ```text
 public/
@@ -30,6 +31,10 @@ src/
   styles.css             Layout, visual system, and responsive rules
   main.tsx
 ```
+
+## Optional analytics
+
+With a public project token configured for a production build, Negar Team sends one product_opened event per page load without an in-app setup prompt. The app name is its only custom event property. PostHog also receives a session-scoped anonymous identifier and ordinary request metadata such as IP address and browser details. Automatic page views, autocapture, session replay, exception capture, feature flags, and map or workspace content are disabled. Leave VITE_POSTHOG_PROJECT_TOKEN unset to keep analytics inactive.
 
 ## Run locally
 
