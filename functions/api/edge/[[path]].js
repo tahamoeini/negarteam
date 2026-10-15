@@ -1,5 +1,5 @@
 const TOKEN_PLACEHOLDER = "__POSTHOG_PROJECT_TOKEN__";
-const PAGE_PREFIX = "/api/posthog";
+const PAGE_PREFIX = "/api/edge";
 const US_API_ORIGIN = "https://us.i.posthog.com";
 const US_ASSETS_ORIGIN = "https://us-assets.i.posthog.com";
 const BODY_LIMIT_BYTES = 1_000_000;
