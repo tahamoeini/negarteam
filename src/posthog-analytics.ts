@@ -1,7 +1,51 @@
-// @ts-nocheck
+type EventProperties = Record<string, unknown>;
+
+type PosthogEvent = {
+  event?: unknown;
+  properties?: EventProperties;
+  [key: string]: unknown;
+};
+
+type PosthogQueue = Array<unknown>;
+
+interface PosthogClient extends PosthogQueue {
+  __SV?: number;
+  _i?: Array<[string, PosthogOptions, string]>;
+  capture: (eventName: string, properties?: EventProperties) => void;
+  init: (token: string, options: PosthogOptions, alias?: string) => void;
+  people?: PosthogQueue;
+}
+
+type PosthogOptions = {
+  api_host: string;
+  defaults: string;
+  autocapture: boolean;
+  capture_pageview: boolean;
+  capture_pageleave: boolean;
+  capture_dead_clicks: boolean;
+  capture_exceptions: boolean;
+  disable_session_recording: boolean;
+  disable_surveys: boolean;
+  disable_surveys_automatic_display: boolean;
+  advanced_disable_flags: boolean;
+  disable_compression: boolean;
+  person_profiles: "never";
+  persistence: "sessionStorage";
+  logs: { captureConsoleLogs: boolean };
+  session_recording: {
+    maskAllInputs: boolean;
+    maskTextSelector: string;
+    maskAllElementAttributes: boolean;
+    blockSelector: string;
+    streamNetworkBody: boolean;
+  };
+  before_send: (event: PosthogEvent) => PosthogEvent | null;
+  loaded: (instance: PosthogClient) => void;
+};
+
 declare global {
   interface Window {
-    posthog?: any;
+    posthog?: PosthogClient;
     __APP_ANALYTICS__?: {
       trackFeature: (featureId: string, outcome?: string) => void;
       trackPageView: () => void;
@@ -12,9 +56,9 @@ export {};
 
 const appName = "Negar Team";
 const projectToken = "__POSTHOG_PROJECT_TOKEN__";
-const apiHost = new URL("/api/posthog", window.location.origin).toString();
+const apiHost = new URL("/api/edge", window.location.origin).toString();
 const productionBuild = import.meta.env.PROD;
-const routeLabels = Object.freeze({"/":"home","/index.html":"home"});
+const routeLabels: Readonly<Record<string, string>> = Object.freeze({"/":"home","/index.html":"home"});
 const TRACKING_OPTIONS = Object.freeze({
   analytics: true,
   pageViews: true,
@@ -33,26 +77,26 @@ const ACTION_IDS = new Set([
   "source-import", "evidence", "claim", "matrix", "share", "chart"
 ]);
 const OUTCOMES = new Set(["started", "completed", "failed"]);
-const ACTION_LABELS = new Map([
-  ...["open", "open file", "открыть", "باز کردن", "打开"].map((value) => [value, "open"]),
-  ...["close", "close dialog", "закрыть", "بستن", "关闭"].map((value) => [value, "close"]),
-  ...["save", "save changes", "сохранить", "ذخیره", "保存"].map((value) => [value, "save"]),
-  ...["delete", "remove", "удалить", "حذف", "删除"].map((value) => [value, "delete"]),
-  ...["import", "import file", "импорт", "وارد کردن", "导入"].map((value) => [value, "import"]),
-  ...["export", "export file", "экспорт", "خروجی", "导出"].map((value) => [value, "export"]),
-  ...["search", "поиск", "جستجو", "搜索"].map((value) => [value, "search"]),
-  ...["filter", "фильтр", "فیلتر", "筛选"].map((value) => [value, "filter"]),
-  ...["sort", "sort by", "сортировка", "مرتب‌سازی", "排序"].map((value) => [value, "sort"]),
-  ...["submit", "send", "отправить", "ارسال", "提交"].map((value) => [value, "submit"]),
-  ...["cancel", "отмена", "لغو", "取消"].map((value) => [value, "cancel"]),
-  ...["select", "выбрать", "انتخاب", "选择"].map((value) => [value, "select"]),
-  ...["refresh", "reload", "обновить", "به‌روزرسانی", "刷新"].map((value) => [value, "refresh"]),
-  ...["copy", "копировать", "کپی", "复制"].map((value) => [value, "copy"]),
-  ...["download", "скачать", "دانلود", "下载"].map((value) => [value, "download"]),
-  ...["create", "new", "создать", "ایجاد", "创建"].map((value) => [value, "create"]),
-  ...["settings", "preferences", "настройки", "تنظیمات", "设置"].map((value) => [value, "settings"]),
-  ...["contact", "contacts", "контакты", "تماس", "联系"].map((value) => [value, "contact"]),
-  ...["share", "поделиться", "اشتراک‌گذاری", "分享"].map((value) => [value, "share"])
+const ACTION_LABELS = new Map<string, string>([
+  ...["open", "open file", "открыть", "باز کردن", "打开"].map((value) => [value, "open"] as const),
+  ...["close", "close dialog", "закрыть", "بستن", "关闭"].map((value) => [value, "close"] as const),
+  ...["save", "save changes", "сохранить", "ذخیره", "保存"].map((value) => [value, "save"] as const),
+  ...["delete", "remove", "удалить", "حذف", "删除"].map((value) => [value, "delete"] as const),
+  ...["import", "import file", "импорт", "وارد کردن", "导入"].map((value) => [value, "import"] as const),
+  ...["export", "export file", "экспорт", "خروجی", "导出"].map((value) => [value, "export"] as const),
+  ...["search", "поиск", "جستجو", "搜索"].map((value) => [value, "search"] as const),
+  ...["filter", "фильтр", "فیلتر", "筛选"].map((value) => [value, "filter"] as const),
+  ...["sort", "sort by", "сортировка", "مرتب‌سازی", "排序"].map((value) => [value, "sort"] as const),
+  ...["submit", "send", "отправить", "ارسال", "提交"].map((value) => [value, "submit"] as const),
+  ...["cancel", "отмена", "لغو", "取消"].map((value) => [value, "cancel"] as const),
+  ...["select", "выбрать", "انتخاب", "选择"].map((value) => [value, "select"] as const),
+  ...["refresh", "reload", "обновить", "به‌روزرسانی", "刷新"].map((value) => [value, "refresh"] as const),
+  ...["copy", "копировать", "کپی", "复制"].map((value) => [value, "copy"] as const),
+  ...["download", "скачать", "دانلود", "下载"].map((value) => [value, "download"] as const),
+  ...["create", "new", "создать", "ایجاد", "创建"].map((value) => [value, "create"] as const),
+  ...["settings", "preferences", "настройки", "تنظیمات", "设置"].map((value) => [value, "settings"] as const),
+  ...["contact", "contacts", "контакты", "تماس", "联系"].map((value) => [value, "contact"] as const),
+  ...["share", "поделиться", "اشتراک‌گذاری", "分享"].map((value) => [value, "share"] as const)
 ]);
 let interactionTrackingInstalled = false;
 let lastPageRoute = "";
@@ -62,12 +106,12 @@ function currentRouteId() {
   return routeLabels[path] || "other";
 }
 
-function capture(eventName, properties) {
+function capture(eventName: string, properties: EventProperties) {
   const instance = window.posthog;
   if (instance && typeof instance.capture === "function") instance.capture(eventName, properties);
 }
 
-function trackFeature(featureId, outcome = "started") {
+function trackFeature(featureId: string, outcome = "started") {
   if (!ACTION_IDS.has(featureId) || !OUTCOMES.has(outcome)) return;
   capture("feature_used", { feature_id: featureId, outcome });
 }
@@ -80,10 +124,14 @@ function capturePageView() {
   capture("page_viewed", { route_id: routeId });
 }
 
-function safeEvent(event) {
+function isRecord(value: unknown): value is EventProperties {
+  return value !== null && typeof value === "object" && !Array.isArray(value);
+}
+
+function safeEvent(event: PosthogEvent | null | undefined): PosthogEvent | null {
   if (!event || typeof event.event !== "string") return null;
-  const properties = event.properties && typeof event.properties === "object" ? event.properties : {};
-  let safeProperties;
+  const properties = isRecord(event.properties) ? event.properties : {};
+  let safeProperties: EventProperties;
   switch (event.event) {
     case "product_opened":
       safeProperties = { app_name: appName };
@@ -93,16 +141,19 @@ function safeEvent(event) {
       break;
     case "ui_interaction": {
       const type = properties.control_type;
-      const controlType = ["button", "link", "tab", "menuitem"].includes(type) ? type : "other";
+      const controlType = typeof type === "string" && ["button", "link", "tab", "menuitem"].includes(type)
+        ? type
+        : "other";
       const action = properties.action_id;
-      const actionId = ACTION_IDS.has(action) ? action : "other";
+      const actionId = typeof action === "string" && ACTION_IDS.has(action) ? action : "other";
       safeProperties = { app_name: appName, route_id: currentRouteId(), control_type: controlType, action_id: actionId };
       break;
     }
     case "feature_used": {
       const featureId = properties.feature_id;
       const outcome = properties.outcome;
-      if (!ACTION_IDS.has(featureId) || !OUTCOMES.has(outcome)) return null;
+      if (typeof featureId !== "string" || typeof outcome !== "string" ||
+          !ACTION_IDS.has(featureId) || !OUTCOMES.has(outcome)) return null;
       safeProperties = { app_name: appName, route_id: currentRouteId(), feature_id: featureId, outcome };
       break;
     }
@@ -120,10 +171,10 @@ function safeEvent(event) {
     }
     case "$autocapture": {
       if (!TRACKING_OPTIONS.autocapture) return null;
-      const elements = Array.isArray(properties.$elements) ? properties.$elements : [];
-      const firstElement = elements[0] && typeof elements[0] === "object" ? elements[0] : {};
+      const elements = properties.$elements;
+      const firstElement = Array.isArray(elements) && isRecord(elements[0]) ? elements[0] : {};
       const tag = firstElement.tag_name;
-      const controlType = ["button", "a", "input"].includes(tag) ? tag : "other";
+      const controlType = typeof tag === "string" && ["button", "a", "input"].includes(tag) ? tag : "other";
       safeProperties = { app_name: appName, route_id: currentRouteId(), control_type: controlType };
       break;
     }
@@ -142,7 +193,7 @@ function safeEvent(event) {
   return event;
 }
 
-function installInteractionTracking(instance) {
+function installInteractionTracking(instance: PosthogClient) {
   if (interactionTrackingInstalled || !TRACKING_OPTIONS.interactions) return;
   interactionTrackingInstalled = true;
   document.addEventListener("click", function (event) {
@@ -165,7 +216,7 @@ function installInteractionTracking(instance) {
   }, true);
 }
 
-function posthogOptions() {
+function posthogOptions(): PosthogOptions {
   return {
     api_host: apiHost,
     defaults: "2026-05-30",
@@ -191,8 +242,9 @@ function posthogOptions() {
     },
     before_send: safeEvent,
     loaded: function (instance) {
+      const instanceProperties = instance as unknown as Record<string, unknown>;
       for (const method of ["identify", "setPersonProperties", "group"]) {
-        if (typeof instance[method] === "function") instance[method] = function () {};
+        if (typeof instanceProperties[method] === "function") instanceProperties[method] = () => {};
       }
       instance.capture("product_opened", { app_name: appName });
       installInteractionTracking(instance);
@@ -202,8 +254,11 @@ function posthogOptions() {
   };
 }
 
-function getPosthogStub() {
-  const posthog = window.posthog || [];
+function getPosthogStub(): PosthogClient {
+  const posthog: PosthogClient = window.posthog || Object.assign([], {
+    capture: () => {},
+    init: () => {}
+  }) as PosthogClient;
   if (posthog.__SV) return posthog;
   window.posthog = posthog;
   posthog._i = [];
@@ -218,10 +273,17 @@ function getPosthogStub() {
     if (firstScript && firstScript.parentNode) firstScript.parentNode.insertBefore(script, firstScript);
     else document.head.appendChild(script);
     const instanceName = alias || "posthog";
-    const instance = instanceName === "posthog" ? posthog : (posthog[instanceName] = []);
-    const people = instance.people || [];
+    const namedInstances = posthog as unknown as Record<string, unknown>;
+    const instance: PosthogClient = instanceName === "posthog"
+      ? posthog
+      : (namedInstances[instanceName] as PosthogClient | undefined) || Object.assign([], {
+        capture: () => {},
+        init: () => {}
+      }) as PosthogClient;
+    if (instanceName !== "posthog") namedInstances[instanceName] = instance;
+    const people: PosthogQueue = instance.people || [];
     instance.people = people;
-    const instanceToString = function (verbose) {
+    const instanceToString = function (verbose: boolean | number) {
       const name = instanceName === "posthog" ? "posthog" : "posthog." + instanceName;
       return verbose ? name : name + " (stub)";
     };
@@ -233,11 +295,14 @@ function getPosthogStub() {
       value: function () { return instanceToString(1) + ".people (stub)"; }
     });
     const methods = "init capture register register_once register_for_session unregister unregister_for_session getFeatureFlag getFeatureFlagResult getFeatureFlagPayload isFeatureEnabled reloadFeatureFlags updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures on onFeatureFlags onSessionId getSurveys getActiveMatchingSurveys renderSurvey canRenderSurvey getNextSurveyStep identify setPersonProperties group resetGroups setPersonPropertiesForFlags resetPersonPropertiesForFlags setGroupPropertiesForFlags resetGroupPropertiesForFlags reset get_distinct_id getGroups get_session_id get_session_replay_url alias set_config startSessionRecording stopSessionRecording sessionRecordingStarted captureException loadToolbar get_property getSessionProperty createPersonProfile opt_in_capturing opt_out_capturing has_opted_in_capturing has_opted_out_capturing clear_opt_in_out_capturing debug".split(" ");
-    for (const method of methods) instance[method] = function (...args) { instance.push([method, ...args]); };
-    for (const method of ["identify", "setPersonProperties", "group"]) {
-      instance[method] = function () {};
+    const instanceProperties = instance as unknown as Record<string, unknown>;
+    for (const method of methods) {
+      instanceProperties[method] = (...args: unknown[]) => instance.push([method, ...args]);
     }
-    posthog._i.push([token, options, instanceName]);
+    for (const method of ["identify", "setPersonProperties", "group"]) {
+      instanceProperties[method] = () => {};
+    }
+    posthog._i?.push([token, options, instanceName]);
   };
   posthog.__SV = 1;
   return posthog;

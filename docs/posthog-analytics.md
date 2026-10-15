@@ -4,7 +4,7 @@
 
 Add the **encrypted Secret** `POSTHOG_PROJECT_TOKEN` to this Pages project in **Settings → Variables and Secrets → Add**, select **Encrypt**, save it, then redeploy. Use the PostHog project ingestion token for the US Cloud project. Apply it to Production; add the same secret to Preview only if preview traffic should be counted.
 
-The function at `/api/posthog/*` reads this binding at runtime. The browser bundle contains only a placeholder and a same-origin endpoint. Do not add a project token to `VITE_POSTHOG_PROJECT_TOKEN`, HTML, source files, build output, or a `vars` entry. Do not use a personal API/CLI key here. The PostHog project ID is not required by the browser SDK.
+The function at `/api/edge/*` reads this binding at runtime. The browser bundle contains only a placeholder and a same-origin endpoint. The neutral route name helps avoid URL-based tracking filters. Do not add a project token to `VITE_POSTHOG_PROJECT_TOKEN`, HTML, source files, build output, or a `vars` entry. Do not use a personal API/CLI key here. The PostHog project ID is not required by the browser SDK.
 
 If this project is deployed somewhere other than Cloudflare Pages, the Pages Function will not run and tracking stays inactive. Use an equivalent server-side proxy before enabling analytics on another host.
 

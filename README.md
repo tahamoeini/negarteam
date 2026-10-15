@@ -33,7 +33,7 @@ src/
 ```
 
 ## Optional analytics
-Negar.team uses a same-origin Cloudflare Pages Function with the encrypted `POSTHOG_PROJECT_TOKEN` secret. The browser bundle contains a proxy placeholder, not the project token. It captures `product_opened`, allowlisted route views, safe button/link interaction categories, and feature-flag evaluations. Analytics sends no form values, user content, imported documents, portfolio data, query strings, or user-created labels. Map contents, participant details, project notes, and test answers are excluded from analytics.
+Negar.team uses a same-origin Cloudflare Pages Function at `/api/edge/*` with the encrypted `POSTHOG_PROJECT_TOKEN` secret. The browser bundle contains a proxy placeholder, not the project token. It captures `product_opened`, allowlisted route views, safe button/link interaction categories, and feature-flag evaluations. Analytics sends no form values, user content, imported documents, portfolio data, query strings, or user-created labels. Map contents, participant details, project notes, and test answers are excluded from analytics.
 
 Feature flags are enabled. Session replay, surveys, autocapture, and exception capture are off by default, and survey auto-display is disabled. No in-app setup or project-selection prompt is shown. See [docs/posthog-analytics.md](docs/posthog-analytics.md) for the Cloudflare secret, options, and privacy boundary.
 ## Run locally
