@@ -161,7 +161,7 @@ function trackPerformanceMetric(metric: string, value: number) {
   capture("client_performance", { metric_id: metric, metric_band: band });
 }
 function installPerformanceTracking() {
-  const navigation = window.performance?.getEntriesByType?.("navigation")?.[0];
+  const navigation = window.performance?.getEntriesByType?.("navigation")?.[0] as PerformanceNavigationTiming | undefined;
   if (navigation && Number.isFinite(navigation.responseStart)) {
     trackPerformanceMetric("ttfb", navigation.responseStart);
   }
@@ -190,7 +190,7 @@ function installPerformanceTracking() {
     const observer = new PerformanceObserver((list) => {
       for (const entry of list.getEntries()) {
         const shift = entry as PerformanceEntry & { hadRecentInput?: boolean; value?: number };
-        if (!shift.hadRecentInput && Number.isFinite(shift.value)) cls += shift.value;
+        if (!shift.hadRecentInput && typeof shift.value === "number" && Number.isFinite(shift.value)) cls += shift.value;
       }
     });
     observer.observe({ type: "layout-shift", buffered: true });
