@@ -190,18 +190,18 @@ function safeEvent(event: PosthogEvent | null | undefined): PosthogEvent | null 
       break;
     }
     case "workflow_step": {
-      if (!WORKFLOW_STEPS.has(properties.step_id) || !WORKFLOW_RESULTS.has(properties.outcome)) return null;
+      if (typeof properties.step_id !== "string" || typeof properties.outcome !== "string" || !WORKFLOW_STEPS.has(properties.step_id) || !WORKFLOW_RESULTS.has(properties.outcome)) return null;
       safeProperties = { app_name: appName, route_id: currentRouteId(), step_id: properties.step_id, outcome: properties.outcome };
       break;
     }
     case "client_issue": {
-      if (!ISSUE_KINDS.has(properties.issue_kind)) return null;
+      if (typeof properties.issue_kind !== "string" || !ISSUE_KINDS.has(properties.issue_kind)) return null;
       safeProperties = { app_name: appName, route_id: currentRouteId(), issue_kind: properties.issue_kind };
       break;
     }
     case "workflow_timing": {
       const allowedBands = ["under_100ms", "100_499ms", "500_1999ms", "2_9s", "10s_plus"];
-      if (!WORKFLOW_STEPS.has(properties.step_id) || !allowedBands.includes(properties.duration_band)) return null;
+      if (typeof properties.step_id !== "string" || typeof properties.duration_band !== "string" || !WORKFLOW_STEPS.has(properties.step_id) || !allowedBands.includes(properties.duration_band)) return null;
       safeProperties = { app_name: appName, route_id: currentRouteId(), step_id: properties.step_id, duration_band: properties.duration_band };
       break;
     }
