@@ -192,6 +192,7 @@ function App() {
   function toggleTheme() {
     const nextTheme = theme === 'dark' ? 'light' : 'dark'
     themeOverride.current = true
+    window.__APP_ANALYTICS__?.trackWorkflow('theme', 'completed')
     setTheme(nextTheme)
     try {
       localStorage.setItem('negar-theme', nextTheme)
@@ -201,8 +202,11 @@ function App() {
   }
 
   function nextPrompt() {
-    if (step === translatedPrompts.length - 1) setShowResult(true)
-    else setStep(step + 1)
+    if (step === 0) window.__APP_ANALYTICS__?.trackWorkflow('test-step', 'started')
+    if (step === translatedPrompts.length - 1) {
+      setShowResult(true)
+      window.__APP_ANALYTICS__?.trackWorkflow('test-step', 'completed')
+    } else setStep(step + 1)
   }
 
   return <>
@@ -214,7 +218,7 @@ function App() {
         <div className="header-controls">
           <fieldset className="locale-switch">
             <legend className="visually-hidden">{t.languageLabel}</legend>
-            {locales.map(item => <label key={item} lang={item === 'zh' ? 'zh-Hans' : item}><input type="radio" name="locale" value={item} aria-label={localeNames[item]} checked={locale === item} onChange={() => setLocale(item)} /><span aria-hidden="true">{item.toUpperCase()}</span></label>)}
+            {locales.map(item => <label key={item} lang={item === 'zh' ? 'zh-Hans' : item}><input type="radio" name="locale" value={item} aria-label={localeNames[item]} checked={locale === item} onChange={() => { setLocale(item); window.__APP_ANALYTICS__?.trackWorkflow('language', 'completed') }} /><span aria-hidden="true">{item.toUpperCase()}</span></label>)}
           </fieldset>
           <button className="theme-toggle" type="button" aria-label={theme === 'dark' ? t.theme.switchToLight : t.theme.switchToDark} title={theme === 'dark' ? t.theme.switchToLight : t.theme.switchToDark} onClick={toggleTheme}>{theme === 'dark' ? t.theme.light : t.theme.dark}</button>
         </div>
@@ -249,7 +253,7 @@ function App() {
         <section className="questions section-wrap" id="questions" aria-labelledby="questions-title">
           <div className="section-kicker mono"><span>02</span><span>{t.questions.kicker}</span><span className="kicker-note">{t.questions.kickerNote}</span></div>
           <div className="questions-intro"><h2 id="questions-title">{t.questions.heading}</h2>
-            <fieldset className="perspective-control"><legend>{t.questions.view}</legend><div className="perspective-control-options" role="radiogroup" aria-label={t.questions.choose}>{perspectives.map(item => <label className="perspective-option" key={item}><input type="radio" name="perspective" value={item} checked={perspective === item} onChange={() => setPerspective(item)} /><span>{t.questions.perspectives[item]}</span></label>)}</div></fieldset>
+            <fieldset className="perspective-control"><legend>{t.questions.view}</legend><div className="perspective-control-options" role="radiogroup" aria-label={t.questions.choose}>{perspectives.map(item => <label className="perspective-option" key={item}><input type="radio" name="perspective" value={item} checked={perspective === item} onChange={() => { setPerspective(item); window.__APP_ANALYTICS__?.trackWorkflow('perspective', 'completed') }} /><span>{t.questions.perspectives[item]}</span></label>)}</div></fieldset>
           </div>
           <div className="project-list" data-perspective={perspective}>
             {projects.map((sourceProject, index) => {
@@ -262,7 +266,7 @@ function App() {
                   <h3 lang="en">{project.name}</h3>
                   <p>{project.description}</p>
                   <div className="project-system"><span>{projectLabel(project, perspective, locale)}</span><span>{project.stage}</span></div>
-                  <a href={project.url} target="_blank" rel="noreferrer">{project.action}<span aria-hidden="true"> ↗</span></a>
+                  <a href={project.url} target="_blank" rel="noreferrer" onClick={() => window.__APP_ANALYTICS__?.trackWorkflow('project-detail', 'completed')}>{project.action}<span aria-hidden="true"> ↗</span></a>
                 </div>
               </article>
             })}
@@ -288,7 +292,7 @@ function App() {
       <section className="decision section-wrap" aria-labelledby="decision-title">
         <div className="decision-aside"><span className="mono">{t.test.asideLabel}</span><p>{t.test.aside[0]}<br />{t.test.aside[1]}</p><StudioMark variant="test" className="decision-sketch" /></div>
         <div className="decision-main"><div className="section-kicker mono"><span>04</span><span>{t.test.kicker}</span></div><h2 id="decision-title">{t.test.title[0]}<br /><em>{t.test.title[1]}</em></h2>
-          {!showResult ? <div className="test-console" aria-live="polite"><div className="test-progress mono">{t.test.question} {String(step + 1).padStart(2, '0')} <span>/ {String(translatedPrompts.length).padStart(2, '0')}</span></div><p className="test-statement">“{translatedPrompts[step].statement}”</p><div className="test-response"><span className="mono">{t.test.currentRead}</span><strong>{translatedPrompts[step].response}</strong></div><button type="button" className="test-next" onClick={nextPrompt}>{step === translatedPrompts.length - 1 ? t.test.seeResult : t.test.next} <span aria-hidden="true">→</span></button></div> : <div className="test-result" aria-live="polite"><span className="mono">{t.test.conclusion}</span><p>{t.test.result[0]}<br /><em>{t.test.result[1]}</em></p><button type="button" className="text-button" onClick={() => { setStep(0); setShowResult(false) }}>{t.test.again} <span aria-hidden="true">↺</span></button></div>}
+          {!showResult ? <div className="test-console" aria-live="polite"><div className="test-progress mono">{t.test.question} {String(step + 1).padStart(2, '0')} <span>/ {String(translatedPrompts.length).padStart(2, '0')}</span></div><p className="test-statement">“{translatedPrompts[step].statement}”</p><div className="test-response"><span className="mono">{t.test.currentRead}</span><strong>{translatedPrompts[step].response}</strong></div><button type="button" className="test-next" onClick={nextPrompt}>{step === translatedPrompts.length - 1 ? t.test.seeResult : t.test.next} <span aria-hidden="true">→</span></button></div> : <div className="test-result" aria-live="polite"><span className="mono">{t.test.conclusion}</span><p>{t.test.result[0]}<br /><em>{t.test.result[1]}</em></p><button type="button" className="text-button" onClick={() => { setStep(0); setShowResult(false); window.__APP_ANALYTICS__?.trackWorkflow('test-step', 'cancelled') }}>{t.test.again} <span aria-hidden="true">↺</span></button></div>}
         </div>
       </section>
 
